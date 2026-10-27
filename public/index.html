@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M3 16h26a13 13 0 0 1-26 0z%27 fill=%27%231f1d18%27/%3E%3Cpath d=%27M5 12Q16 0 27 12%27 fill=%27none%27 stroke=%27%23f2b01e%27 stroke-width=%273.5%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <title>AnnSetu | Rescue extra food before it goes to waste</title>
+  <meta name="description" content="Restaurants, hostels and caterers post their extra food. Nearby NGOs and volunteers pick it up before it spoils.">
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page-home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path class="bowl" d="M3 16h26a13 13 0 0 1-26 0z"/><path class="arc" d="M5 12Q16 0 27 12"/></svg>
+        <span>AnnSetu</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <h1>Good food shouldn’t end up in the bin.</h1>
+        <p class="lede">Restaurants, hostels and caterers post the food they have left over. Nearby NGOs and volunteers claim it and pick it up before it spoils.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-large" href="/auth?mode=register&role=donor" id="cta-donate">Donate extra food</a>
+          <a class="btn btn-ghost btn-large" href="/auth?mode=register&role=rescuer" id="cta-rescue">Collect food for people</a>
+        </div>
+      </div>
+
+      <aside class="live-panel" aria-labelledby="live-title">
+        <div class="live-head">
+          <h2 id="live-title">Waiting for pickup <span id="city-name">near you</span></h2>
+          <span class="live-dot" aria-hidden="true"></span>
+        </div>
+        <ul class="live-list" id="live-list">
+          <li class="skeleton"></li><li class="skeleton"></li><li class="skeleton"></li>
+        </ul>
+        <a class="live-more" href="#map" id="live-more">See everything on the map</a>
+      </aside>
+    </section>
+
+    <section class="impact" aria-labelledby="impact-title">
+      <div class="wrap">
+        <h2 id="impact-title" class="section-title">What we’ve rescued together</h2>
+        <dl class="impact-stats">
+          <div><dt>meals rescued</dt><dd id="stat-meals">–</dd></div>
+          <div><dt>people fed</dt><dd id="stat-people">–</dd></div>
+          <div><dt>kg of food kept out of the bin*</dt><dd id="stat-kg">–</dd></div>
+          <div><dt>kitchens and NGOs taking part</dt><dd id="stat-partners">–</dd></div>
+        </dl>
+        <div class="impact-grid">
+          <figure class="panel chart-panel">
+            <figcaption>
+              <h3>Meals rescued, last 14 days</h3>
+            </figcaption>
+            <div id="chart" class="chart"></div>
+          </figure>
+          <div class="panel">
+            <h3>Top donors</h3>
+            <ol class="leaderboard" id="leaderboard"></ol>
+          </div>
+        </div>
+        <p class="footnote" id="kg-note">*Estimated from the number of meals.</p>
+      </div>
+    </section>
+
+    <section class="map-section wrap" id="map" aria-labelledby="map-title">
+      <div class="section-head">
+        <h2 id="map-title" class="section-title">Food waiting right now</h2>
+        <ul class="legend" aria-label="Pin colours">
+          <li><span class="swatch swatch-fresh"></span>More than 2½ hours left</li>
+          <li><span class="swatch swatch-soon"></span>1 to 2½ hours</li>
+          <li><span class="swatch swatch-urgent"></span>Under an hour</li>
+        </ul>
+      </div>
+      <p class="section-sub">Each pin shows how many servings are waiting. <a href="/auth?mode=register&role=rescuer">Join as an NGO or volunteer</a> to claim food.</p>
+      <div class="map map-large" id="public-map" role="region" aria-label="Map of food waiting for pickup"></div>
+    </section>
+
+    <section class="how wrap" aria-labelledby="how-title">
+      <h2 id="how-title" class="section-title">How a rescue works</h2>
+      <ol class="steps">
+        <li>
+          <h3>A kitchen posts extra food</h3>
+          <p>They add what it is, how many people it can feed and until when it stays safe to eat.</p>
+        </li>
+        <li>
+          <h3>A rescuer claims it</h3>
+          <p>NGOs and volunteers see food near them, sorted by distance or by how soon it expires, and claim it with an arrival time.</p>
+        </li>
+        <li>
+          <h3>They swap a pickup code</h3>
+          <p>The rescuer shows a 4-digit code. The kitchen enters it to confirm they handed the food to the right person.</p>
+        </li>
+        <li>
+          <h3>Food reaches people</h3>
+          <p>The rescuer records how many people were fed, and the impact shows up on this page.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap cta-inner">
+        <h2>Run a restaurant, hostel mess or catering business?</h2>
+        <p>Posting takes under a minute, and your extra food feeds someone tonight.</p>
+        <a class="btn btn-dark btn-large" href="/auth?mode=register&role=donor">Start donating</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>AnnSetu</strong> connects kitchens with extra food to people who can get it to those who need it.</p>
+      <p>Final year project. Built with Node.js, Express, SQLite and Leaflet.</p>
+    </div>
+  </footer>
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

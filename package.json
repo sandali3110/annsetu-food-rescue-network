@@ -1,0 +1,29 @@
+{
+  "name": "annsetu-food-rescue-network",
+  "version": "1.0.0",
+  "description": "AnnSetu connects restaurants, hostels and caterers with NGOs and volunteers to rescue surplus food before it goes to waste.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "reset-db": "node scripts/reset-db.js"
+  },
+  "keywords": [
+    "food-waste",
+    "food-rescue",
+    "ngo",
+    "express",
+    "sqlite",
+    "leaflet",
+    "college-project"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.3",
+    "leaflet": "^1.9.4",
+    "sql.js": "^1.15.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

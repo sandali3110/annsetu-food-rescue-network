@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M3 16h26a13 13 0 0 1-26 0z%27 fill=%27%231f1d18%27/%3E%3Cpath d=%27M5 12Q16 0 27 12%27 fill=%27none%27 stroke=%27%23f2b01e%27 stroke-width=%273.5%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <title>Log in or join | AnnSetu</title>
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page-auth">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path class="bowl" d="M3 16h26a13 13 0 0 1-26 0z"/><path class="arc" d="M5 12Q16 0 27 12"/></svg>
+        <span>AnnSetu</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="auth wrap">
+    <aside class="auth-aside">
+      <h1 id="auth-heading">Welcome back.</h1>
+      <p id="auth-sub">Log in to post food or find food to collect.</p>
+      <div class="demo-box">
+        <h2>Try it with a demo account</h2>
+        <p>Both use the password <code>demo1234</code>.</p>
+        <div class="demo-buttons">
+          <button type="button" class="btn btn-ghost btn-small" data-demo="donor@demo.com">Donor: Hotel Saffron Kitchen</button>
+          <button type="button" class="btn btn-ghost btn-small" data-demo="ngo@demo.com">NGO: Annapurna Seva Trust</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="auth-card">
+      <div class="tabs" role="tablist" aria-label="Account">
+        <button type="button" role="tab" id="tab-login" aria-controls="login-form" aria-selected="true">Log in</button>
+        <button type="button" role="tab" id="tab-register" aria-controls="register-form" aria-selected="false">Create account</button>
+      </div>
+
+      <form id="login-form" role="tabpanel" aria-labelledby="tab-login" novalidate>
+        <div class="field">
+          <label for="l-email">Email</label>
+          <input id="l-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="l-password">Password</label>
+          <input id="l-password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="form-error" role="alert"></p>
+        <button class="btn btn-primary btn-block" type="submit">Log in</button>
+        <p class="switch-text">New to AnnSetu? <button type="button" class="link-btn" data-switch="register">Create an account</button></p>
+      </form>
+
+      <form id="register-form" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
+        <fieldset class="role-choice">
+          <legend>How will you use AnnSetu?</legend>
+          <label class="role-card">
+            <input type="radio" name="role" value="donor" checked>
+            <span class="role-body">
+              <strong>I have extra food</strong>
+              <span>Restaurant, hostel mess, caterer, canteen or event</span>
+            </span>
+          </label>
+          <label class="role-card">
+            <input type="radio" name="role" value="rescuer">
+            <span class="role-body">
+              <strong>I collect food for people</strong>
+              <span>NGO, shelter, community kitchen or volunteer</span>
+            </span>
+          </label>
+          <p class="field-error" data-error-for="role"></p>
+        </fieldset>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="r-name">Your name</label>
+            <input id="r-name" name="name" autocomplete="name" maxlength="60" required>
+            <p class="field-error" data-error-for="name"></p>
+          </div>
+          <div class="field">
+            <label for="r-org" id="org-label">Business name</label>
+            <input id="r-org" name="orgName" autocomplete="organization" maxlength="80" required>
+            <p class="field-error" data-error-for="orgName"></p>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="r-email">Email</label>
+            <input id="r-email" name="email" type="email" autocomplete="email" required>
+            <p class="field-error" data-error-for="email"></p>
+          </div>
+          <div class="field">
+            <label for="r-phone">Phone</label>
+            <input id="r-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" required>
+            <p class="field-error" data-error-for="phone"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r-password">Password</label>
+          <input id="r-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+          <p class="hint">At least 8 characters.</p>
+          <p class="field-error" data-error-for="password"></p>
+        </div>
+        <div class="field">
+          <label for="r-address" id="address-label">Pickup address</label>
+          <input id="r-address" name="address" autocomplete="street-address" maxlength="160" placeholder="Shop 4, FC Road, Shivajinagar" required>
+          <p class="field-error" data-error-for="address"></p>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <span class="label" id="pin-label">Pin your location</span>
+            <button type="button" class="link-btn" id="locate-btn">Use my current location</button>
+          </div>
+          <div class="map map-picker" id="register-map" role="region" aria-labelledby="pin-label"></div>
+          <p class="hint">Click the map or drag the pin to your exact spot.</p>
+          <p class="field-error" data-error-for="location"></p>
+        </div>
+        <p class="form-error" role="alert"></p>
+        <button class="btn btn-primary btn-block" type="submit">Create account</button>
+        <p class="switch-text">Already have an account? <button type="button" class="link-btn" data-switch="login">Log in</button></p>
+      </form>
+    </div>
+  </main>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

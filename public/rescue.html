@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M3 16h26a13 13 0 0 1-26 0z%27 fill=%27%231f1d18%27/%3E%3Cpath d=%27M5 12Q16 0 27 12%27 fill=%27none%27 stroke=%27%23f2b01e%27 stroke-width=%273.5%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <title>Find food | AnnSetu</title>
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page-dashboard">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path class="bowl" d="M3 16h26a13 13 0 0 1-26 0z"/><path class="arc" d="M5 12Q16 0 27 12"/></svg>
+        <span>AnnSetu</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap dashboard">
+    <div class="dash-head">
+      <div>
+        <p class="dash-kicker" id="dash-kicker">Rescuer dashboard</p>
+        <h1 id="dash-title">Find food</h1>
+      </div>
+    </div>
+
+    <dl class="chips">
+      <div><dt>meals you’ve rescued</dt><dd id="r-meals">–</dd></div>
+      <div><dt>people you’ve fed</dt><dd id="r-people">–</dd></div>
+      <div><dt>pickups in progress</dt><dd id="r-active">–</dd></div>
+    </dl>
+
+    <div class="tabs tabs-wide" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tab-find" aria-controls="panel-find" aria-selected="true">Food near you <span class="count" id="count-find"></span></button>
+      <button type="button" role="tab" id="tab-mine" aria-controls="panel-mine" aria-selected="false">My pickups <span class="count" id="count-mine"></span></button>
+    </div>
+
+    <section id="panel-find" role="tabpanel" aria-labelledby="tab-find">
+      <div class="filters">
+        <label class="filter">
+          <span>Type</span>
+          <select id="filter-type">
+            <option value="">All food</option>
+            <option value="veg">Veg only</option>
+            <option value="non-veg">Non-veg only</option>
+            <option value="mixed">Veg and non-veg</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>Distance</span>
+          <select id="filter-km">
+            <option value="">Any distance</option>
+            <option value="3">Within 3 km</option>
+            <option value="5">Within 5 km</option>
+            <option value="10">Within 10 km</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>Sort by</span>
+          <select id="filter-sort">
+            <option value="expiry">Expiring soonest</option>
+            <option value="distance">Nearest first</option>
+          </select>
+        </label>
+      </div>
+      <div class="find-layout">
+        <div>
+          <p class="muted list-status" id="find-status" aria-live="polite"></p>
+          <ul class="cards" id="find-list"></ul>
+          <div class="empty" id="find-empty" hidden>
+            <p class="empty-title">No food matches right now.</p>
+            <p id="find-empty-text">Try a wider distance. New food usually appears after lunch and dinner service.</p>
+          </div>
+        </div>
+        <div class="find-map-wrap">
+          <div class="map map-sticky" id="rescue-map" role="region" aria-label="Map of food near you"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-mine" role="tabpanel" aria-labelledby="tab-mine" hidden>
+      <ul class="cards cards-wide" id="mine-list"></ul>
+      <div class="empty" id="mine-empty" hidden>
+        <p class="empty-title">You haven’t claimed any food yet.</p>
+        <p>Claim food from the list and your pickup code shows up here.</p>
+      </div>
+      <h2 class="list-title" id="mine-history-title">Delivered</h2>
+      <ul class="history" id="mine-history"></ul>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="claim-dialog" aria-labelledby="claim-title">
+    <div id="claim-step-choose">
+      <div class="dialog-head">
+        <div>
+          <p class="dash-kicker" id="claim-from"></p>
+          <h2 id="claim-title">Claim this food</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div id="claim-summary"></div>
+      <fieldset class="field pills" id="eta-choices">
+        <legend>When will you reach the pickup point?</legend>
+      </fieldset>
+      <p class="form-error" id="claim-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="button" class="btn btn-primary" id="claim-confirm">Claim pickup</button>
+      </div>
+    </div>
+    <div id="claim-step-done" hidden>
+      <div class="dialog-head">
+        <h2>It’s yours to collect.</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <p>Show this code to the donor when you collect the food.</p>
+      <p class="code-display" id="claim-code" aria-label="Pickup code"></p>
+      <p class="muted" id="claim-done-text"></p>
+      <div class="dialog-actions">
+        <a class="btn btn-ghost" id="claim-directions" target="_blank" rel="noopener">Get directions</a>
+        <button type="button" class="btn btn-primary" id="claim-go-mine">See my pickups</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/rescue.js"></script>
+</body>
+</html>

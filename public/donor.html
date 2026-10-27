@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M3 16h26a13 13 0 0 1-26 0z%27 fill=%27%231f1d18%27/%3E%3Cpath d=%27M5 12Q16 0 27 12%27 fill=%27none%27 stroke=%27%23f2b01e%27 stroke-width=%273.5%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <title>My donations | AnnSetu</title>
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page-dashboard">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path class="bowl" d="M3 16h26a13 13 0 0 1-26 0z"/><path class="arc" d="M5 12Q16 0 27 12"/></svg>
+        <span>AnnSetu</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap dashboard">
+    <div class="dash-head">
+      <div>
+        <p class="dash-kicker" id="dash-kicker">Donor dashboard</p>
+        <h1 id="dash-title">My donations</h1>
+      </div>
+      <button class="btn btn-primary btn-large" type="button" id="new-listing-btn">Post extra food</button>
+    </div>
+
+    <dl class="chips" id="donor-stats">
+      <div><dt>meals donated</dt><dd id="d-meals">–</dd></div>
+      <div><dt>people fed</dt><dd id="d-people">–</dd></div>
+      <div><dt>waiting for pickup</dt><dd id="d-active">–</dd></div>
+    </dl>
+
+    <section aria-labelledby="active-title">
+      <h2 class="list-title" id="active-title">Active</h2>
+      <ul class="cards" id="active-list"></ul>
+      <div class="empty" id="active-empty" hidden>
+        <p class="empty-title">Nothing waiting for pickup.</p>
+        <p>Have food left after service? Post it and a nearby NGO or volunteer can collect it.</p>
+        <button class="btn btn-primary" type="button" data-new-listing>Post extra food</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="history-title">
+      <h2 class="list-title" id="history-title">History</h2>
+      <ul class="history" id="history-list"></ul>
+      <p class="muted" id="history-empty" hidden>Finished donations show up here.</p>
+    </section>
+  </main>
+
+  <dialog class="dialog dialog-wide" id="listing-dialog" aria-labelledby="listing-title">
+    <form id="listing-form" novalidate>
+      <div class="dialog-head">
+        <h2 id="listing-title">Post extra food</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+
+      <div class="field">
+        <label for="f-title">What food is it?</label>
+        <input id="f-title" name="title" maxlength="80" placeholder="Veg biryani and raita" required>
+        <p class="field-error" data-error-for="title"></p>
+      </div>
+
+      <div class="field-row">
+        <fieldset class="field pills">
+          <legend>Type</legend>
+          <label><input type="radio" name="foodType" value="veg" checked><span><svg class="food-symbol food-symbol-veg" viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="1.5"/><circle cx="8" cy="8" r="3.6"/></svg>Veg</span></label>
+          <label><input type="radio" name="foodType" value="non-veg"><span><svg class="food-symbol food-symbol-nonveg" viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="1.5"/><path d="M8 3.8 12.2 11.4H3.8z"/></svg>Non-veg</span></label>
+          <label><input type="radio" name="foodType" value="mixed"><span>Both</span></label>
+          <p class="field-error" data-error-for="foodType"></p>
+        </fieldset>
+        <div class="field">
+          <label for="f-servings">How many people can it feed?</label>
+          <input id="f-servings" name="servings" type="number" min="1" max="2000" inputmode="numeric" required>
+          <p class="field-error" data-error-for="servings"></p>
+        </div>
+      </div>
+
+      <fieldset class="field pills" id="safe-choices">
+        <legend>It stays safe to eat for</legend>
+        <label><input type="radio" name="safeFor" value="120"><span>2 hours</span></label>
+        <label><input type="radio" name="safeFor" value="240" checked><span>4 hours</span></label>
+        <label><input type="radio" name="safeFor" value="360"><span>6 hours</span></label>
+        <label><input type="radio" name="safeFor" value="custom"><span>Pick a time</span></label>
+      </fieldset>
+      <div class="field" id="custom-time-field" hidden>
+        <label for="f-safe-until">Safe until</label>
+        <input id="f-safe-until" type="datetime-local">
+      </div>
+      <p class="hint" id="safe-summary"></p>
+      <p class="field-error" data-error-for="safeUntil"></p>
+
+      <div class="field">
+        <label for="f-address">Pickup address</label>
+        <input id="f-address" name="pickupAddress" maxlength="160" required>
+        <p class="field-error" data-error-for="pickupAddress"></p>
+      </div>
+      <div class="field">
+        <span class="label" id="f-pin-label">Pickup point</span>
+        <div class="map map-picker" id="listing-map" role="region" aria-labelledby="f-pin-label"></div>
+        <p class="hint">Drag the pin if the pickup point is somewhere else today.</p>
+        <p class="field-error" data-error-for="location"></p>
+      </div>
+      <div class="field">
+        <label for="f-description">Notes for the rescuer <span class="optional">(optional)</span></label>
+        <textarea id="f-description" name="description" rows="2" maxlength="300" placeholder="Packed in 3 steel containers. Bring bags. Ask for Ramesh at the back gate."></textarea>
+        <p class="field-error" data-error-for="description"></p>
+      </div>
+
+      <p class="form-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Post food</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/donor.js"></script>
+</body>
+</html>
